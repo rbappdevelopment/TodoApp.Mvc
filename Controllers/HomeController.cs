@@ -11,11 +11,15 @@ namespace TodoApp.Mvc.Controllers
 {
     public class HomeController : Controller
     {
+        private static int TodoId = 0;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
+            TodoList todoList = new TodoList();
+            
         }
 
         public IActionResult Index()
@@ -32,6 +36,17 @@ namespace TodoApp.Mvc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult GenerateTodo(string todoContent, DateTime deadline)
+        {
+            TodoItemModel TodoModel = new TodoItemModel();
+
+            TodoModel.Id = TodoId;
+            TodoModel.TodoContent = todoContent;
+            TodoModel.Deadline = deadline;
+
+            return View(TodoModel);
         }
     }
 }

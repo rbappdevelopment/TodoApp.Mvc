@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using TodoApp.Mvc.Controllers;
 namespace TodoApp.Mvc
 {
     public class Startup
@@ -16,6 +16,9 @@ namespace TodoApp.Mvc
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            HomeController home = new HomeController(null);
+            home.GenerateTodo("eerste todo", DateTime.Now);
         }
 
         public IConfiguration Configuration { get; }

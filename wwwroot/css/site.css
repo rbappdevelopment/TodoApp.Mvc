@@ -69,3 +69,25 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #3399ff;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

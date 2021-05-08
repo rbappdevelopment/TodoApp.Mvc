@@ -1,8 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model TodoApp.Mvc.Models.TodoList
+@{
+    ViewData["Title"] = "Todo Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <h1 class="display-4">Todo App</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Todo</th>
+            <th>Deadline</th>
+        </tr>
+        <tr>
+            @if (Model.TodoItems != null)
+            {
+                @foreach (var todo in Model.TodoItems)
+                {
+                <tbody>@Model.TodoItems</tbody>
+                <tbody></tbody>
+                <tbody></tbody>
+                }
+            }
+            </tr>
+        </table>
+    </div>
