@@ -16,9 +16,6 @@ namespace TodoApp.Mvc
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            HomeController home = new HomeController(null);
-            home.GenerateTodo("eerste todo", DateTime.Now);
         }
 
         public IConfiguration Configuration { get; }

@@ -75,7 +75,7 @@ table {
     margin-right: auto;
 }
 
-th, td {
+th {
     padding-top: 12px;
     padding-bottom: 12px;
     background-color: #3399ff;
@@ -84,8 +84,17 @@ th, td {
     padding: 8px;
 }
 
-tr:hover {
-    background-color: #ddd;
+td {
+    color: black;
+    background-color: floralwhite;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:hover td {
+    background-color: aliceblue;
 }
 
 tr:nth-child(even) {

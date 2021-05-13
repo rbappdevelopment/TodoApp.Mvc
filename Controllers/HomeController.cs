@@ -11,42 +11,59 @@ namespace TodoApp.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        private static int TodoId = 0;
+        private static int _TodoId;
         private readonly ILogger<HomeController> _logger;
 
+        public TodoItemModel TodoModel = new TodoItemModel();
+        public static TodoList _TodoList;
+        public static List<TodoItemModel> _TodoItems;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-
-            TodoList todoList = new TodoList();
-            
         }
 
+        static HomeController()
+        {
+            _TodoList = new TodoList();
+            _TodoItems = new List<TodoItemModel>();
+            _TodoId = 0;
+        }
+
+        public TodoList GenerateTodo(string todoContent, DateTime deadline)
+        {
+            _TodoId++;
+            TodoModel.Id = _TodoId;
+            TodoModel.TodoContent = todoContent;
+            TodoModel.Deadline = deadline;
+            
+            _TodoItems.Add(TodoModel);
+
+            _TodoList.TodoItems = _TodoItems;
+
+            return _TodoList;
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_TodoList);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(string todoContent, DateTime deadline)
         {
-            return View();
+            return View(GenerateTodo(todoContent, deadline));
+        }
+
+        public IActionResult About()
+        { 
+            return View(_TodoList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult GenerateTodo(string todoContent, DateTime deadline)
-        {
-            TodoItemModel TodoModel = new TodoItemModel();
-
-            TodoModel.Id = TodoId;
-            TodoModel.TodoContent = todoContent;
-            TodoModel.Deadline = deadline;
-
-            return View(TodoModel);
         }
     }
 }

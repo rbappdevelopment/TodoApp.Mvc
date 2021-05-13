@@ -1,26 +1,38 @@
 ﻿@model TodoApp.Mvc.Models.TodoList
 @{
-    ViewData["Title"] = "Todo Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Todo App";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Todo App</h1>
+    <h1>@ViewData["Title"]</h1>
     <table>
         <tr>
             <th>#</th>
             <th>Todo</th>
             <th>Deadline</th>
         </tr>
-        <tr>
-            @if (Model.TodoItems != null)
-            {
-                @foreach (var todo in Model.TodoItems)
-                {
-                <tbody>@Model.TodoItems</tbody>
-                <tbody></tbody>
-                <tbody></tbody>
-                }
-            }
+        @if (Model.TodoItems == null) {
+            <p>No todo's have been found. Generate one below!</p>
+        }
+        else{
+        foreach (var todo in Model.TodoItems)
+        {
+            <tr>
+                <td>@todo.Id</td>
+                <td>@todo.TodoContent</td>
+                <td>@todo.Deadline</td>
             </tr>
-        </table>
-    </div>
+        }
+        }
+    </table>
+
+    <br />
+    <h4>Add a todo here:</h4>
+    <form method="POST">
+        <input type="text" id="todoContent" placeholder="Type your todo here..." name="todoContent"/>
+        <input type="datetime-local" id="deadline" placeholder="Date deadline" name="deadline"/>
+        <input type="submit" value="Add Todo"/>
+    </form>
+
+</div>
