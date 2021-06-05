@@ -55,6 +55,37 @@ namespace TodoApp.Mvc.Controllers
             return View(GenerateTodo(todoContent, deadline));
         }
 
+      /*  [HttpPost]
+        public IActionResult DeleteTodo()
+        {
+            TodoList CheckedTodosInList = new TodoList();
+
+            foreach (var todo in _TodoList.TodoItems)
+            {
+                if (todo.Checked)
+                {
+                    CheckedTodosInList.TodoItems.Add(todo);
+                    _TodoList.TodoItems.Remove(todo);
+                    Debug.WriteLine("Removed todo from static List. Total items left in _TodoList: " + _TodoList.TodoItems.Count);
+                }
+            }
+
+            return View("~/Views/Home/Index.cshtml", _TodoList);
+        }*/
+
+        [HttpPost]
+        public IActionResult DeleteTodo(List<int> checkedStatus)
+        {
+            foreach (var q in checkedStatus)
+            {
+                var checkedTodo = _TodoList.TodoItems.Where(x => x.Id == q).FirstOrDefault();
+                checkedTodo.Checked = true;
+                _TodoList.TodoItems.Remove(checkedTodo);
+            }
+            //other logic
+            return View("~/Views/Home/Index.cshtml", _TodoList);
+        }
+
         public IActionResult About()
         { 
             return View(_TodoList);

@@ -14,10 +14,14 @@ namespace TodoApp.Mvc.Models
 
 		public DateTime Deadline { get; set; }
 
+		public bool Checked { get; set; }
+
 	}
 
 	public class TodoList
 	{
 		public List<TodoItemModel> TodoItems { get; set; }
+
+		public bool CheckedInList { get; set; }
 	}
 }

@@ -12,27 +12,34 @@
             <th>Todo</th>
             <th>Deadline</th>
         </tr>
-        @if (Model.TodoItems == null) {
+        @if (Model.TodoItems == null)
+        {
             <p>No todo's have been found. Generate one below!</p>
         }
-        else{
-        foreach (var todo in Model.TodoItems)
+        else
         {
-            <tr>
-                <td>@todo.Id</td>
-                <td>@todo.TodoContent</td>
-                <td>@todo.Deadline</td>
-            </tr>
-        }
+            foreach (var todo in Model.TodoItems)
+            {
+    <tr>
+        <td>@todo.Id</td>
+        <td>@todo.TodoContent</td>
+        <td>@todo.Deadline</td>
+        <!--<td>@Html.CheckBoxFor(x => todo.Checked)</td>-->
+        <form id="TodoChecked" asp-action="DeleteTodo" asp-controller="Home">
+        <td><input type="checkbox" name="checkedStatus" value="@todo.Id" /></td>
+        </form>
+    </tr>
+            }
         }
     </table>
 
     <br />
     <h4>Add a todo here:</h4>
     <form method="POST">
-        <input type="text" id="todoContent" placeholder="Type your todo here..." name="todoContent"/>
-        <input type="datetime-local" id="deadline" placeholder="Date deadline" name="deadline"/>
-        <input type="submit" value="Add Todo"/>
+        <input type="text" id="todoContent" placeholder="Type your todo here..." name="todoContent" />
+        <input type="datetime-local" id="deadline" placeholder="Date deadline" name="deadline" />
+        <input type="submit" value="Add Todo" />
     </form>
 
+    <button type="submit" form="TodoChecked">Delete Todo</button>
 </div>
