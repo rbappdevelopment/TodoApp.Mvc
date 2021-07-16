@@ -24,22 +24,13 @@
                     <td>@todo.Id</td>
                     <td>@todo.TodoContent</td>
                     <td>@todo.Deadline</td>
-                    <!--<td>@Html.CheckBoxFor(x => todo.Checked)</td>-->
-                    <!--
-                        <form id="TodoChecked" asp-action="DeleteTodo" asp-controller="Home">
-                        <td><input type="checkbox" name="checkedStatus" value="@todo.Id" /></td>
-                        </form>
-                    -->
                     <td>
-                        @using (Html.BeginForm("DeleteTodo", "Home", FormMethod.Post))
+                        @Html.CheckBoxFor(x => todo.Checked, new
                         {
-                            @Html.CheckBoxFor(x => todo.Checked, new
-                            {
-                               id = todo.Id,
-                               @class = "toggle",
-                               data_url = Url.Action("ToggleClaim", "Home")
-                            });
-                        }
+                           id = todo.Id,
+                           @class = "toggle",
+                           data_url = Url.Action("ToggleClaim", "Home")
+                        })
                     </td>
                 </tr>
             }
@@ -56,7 +47,14 @@
     </form>
 
     <br />
-    <input type="button" value="Delete todo" onclick="location.href='@Url.Action("DeleteTodo", "Home")'" />
+    <table>
+        <td>
+            <h6>Delete selected todo's:</h6>
+        </td>
+        <td>
+            <input type="button" value="Delete todo" onclick="location.href='@Url.Action("DeleteTodo", "Home")'" />
+        </td>
+    </table>
 </div>
 
 @section scripts {

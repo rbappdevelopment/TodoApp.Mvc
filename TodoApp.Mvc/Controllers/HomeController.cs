@@ -102,22 +102,11 @@ namespace TodoApp.Mvc.Controllers
         [HttpGet]
         public IActionResult DeleteTodo()
         {
-            var TodoItemsCheckedList = _TodoItems.Where(z => z.Checked == true).ToList();
-
-            TodoItemsCheckedList.RemoveAll(p => p.Checked == true);
-
             _TodoList.TodoItems.RemoveAll(p => p.Checked == true);
 
             Debug.WriteLine("Deleted selected todo's.");
 
-            //foreach (var q in checkedStatus)
-            //{
-            //    var checkedTodo = _TodoList.TodoItems.Where(x => x.Id == q).FirstOrDefault();
-            //    checkedTodo.Checked = true;
-            //    _TodoList.TodoItems.Remove(checkedTodo);
-            //}
-            //other logic
-            return View("~/Views/Home/Index.cshtml", _TodoList);
+            return RedirectToAction("Index");
         }
 
         public IActionResult About()
