@@ -20,18 +20,32 @@
         {
             foreach (var todo in Model.TodoItems)
             {
-    <tr>
-        <td>@todo.Id</td>
-        <td>@todo.TodoContent</td>
-        <td>@todo.Deadline</td>
-        <!--<td>@Html.CheckBoxFor(x => todo.Checked)</td>-->
-        <form id="TodoChecked" asp-action="DeleteTodo" asp-controller="Home">
-        <td><input type="checkbox" name="checkedStatus" value="@todo.Id" /></td>
-        </form>
-    </tr>
+                <tr>
+                    <td>@todo.Id</td>
+                    <td>@todo.TodoContent</td>
+                    <td>@todo.Deadline</td>
+                    <!--<td>@Html.CheckBoxFor(x => todo.Checked)</td>-->
+                    <!--
+                        <form id="TodoChecked" asp-action="DeleteTodo" asp-controller="Home">
+                        <td><input type="checkbox" name="checkedStatus" value="@todo.Id" /></td>
+                        </form>
+                    -->
+                    <td>
+                        @using (Html.BeginForm("DeleteTodo", "Home", FormMethod.Post))
+                        {
+                            @Html.CheckBoxFor(x => todo.Checked, new
+                            {
+                               id = todo.Id,
+                               @class = "toggle",
+                               data_url = Url.Action("ToggleClaim", "Home")
+                            });
+                        }
+                    </td>
+                </tr>
             }
         }
     </table>
+
 
     <br />
     <h4>Add a todo here:</h4>
@@ -41,5 +55,34 @@
         <input type="submit" value="Add Todo" />
     </form>
 
-    <button type="submit" form="TodoChecked">Delete Todo</button>
+    <br />
+    <input type="button" value="Delete todo" onclick="location.href='@Url.Action("DeleteTodo", "Home")'" />
 </div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.toggle').change(function () {
+
+                    //alert("Uw todo is geselecteerd.");
+
+                    var self = $(this);
+                    var url = self.data('url');
+                    var id = self.attr('id');
+                    var value = self.prop('checked');
+
+                    $.ajax({
+                        url: url,
+                        data: { id: id, value: value},
+                        type: 'GET',
+                        success: function (response) {
+                            // alert("Uw todo is verwijderd.");
+                        }
+                   
+                    });
+                    
+                });
+            
+        });
+    </script>
+}

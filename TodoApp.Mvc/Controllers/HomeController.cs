@@ -44,6 +44,32 @@ namespace TodoApp.Mvc.Controllers
         }
 
         [HttpGet]
+        public IActionResult ToggleClaim(int id, bool value)
+        {
+            Debug.WriteLine("Value is: " + value);
+
+            if (value)
+            {
+                foreach (var q in _TodoItems.Where(q => q.Id == id))
+                {
+                    q.Checked = true;
+                };
+            }
+            else
+            {
+                foreach (var q in _TodoItems.Where(q => q.Id == id))
+                {
+                    q.Checked = false;
+                };
+            }
+
+            Debug.WriteLine("Triggered ToggleClaim(); with id: " + id);
+            
+            return Ok();
+        }
+
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_TodoList);
@@ -55,33 +81,41 @@ namespace TodoApp.Mvc.Controllers
             return View(GenerateTodo(todoContent, deadline));
         }
 
-      /*  [HttpPost]
+        /*  [HttpPost]
+          public IActionResult DeleteTodo()
+          {
+              TodoList CheckedTodosInList = new TodoList();
+
+              foreach (var todo in _TodoList.TodoItems)
+              {
+                  if (todo.Checked)
+                  {
+                      CheckedTodosInList.TodoItems.Add(todo);
+                      _TodoList.TodoItems.Remove(todo);
+                      Debug.WriteLine("Removed todo from static List. Total items left in _TodoList: " + _TodoList.TodoItems.Count);
+                  }
+              }
+
+              return View("~/Views/Home/Index.cshtml", _TodoList);
+          }*/
+
+        [HttpGet]
         public IActionResult DeleteTodo()
         {
-            TodoList CheckedTodosInList = new TodoList();
+            var TodoItemsCheckedList = _TodoItems.Where(z => z.Checked == true).ToList();
 
-            foreach (var todo in _TodoList.TodoItems)
-            {
-                if (todo.Checked)
-                {
-                    CheckedTodosInList.TodoItems.Add(todo);
-                    _TodoList.TodoItems.Remove(todo);
-                    Debug.WriteLine("Removed todo from static List. Total items left in _TodoList: " + _TodoList.TodoItems.Count);
-                }
-            }
+            TodoItemsCheckedList.RemoveAll(p => p.Checked == true);
 
-            return View("~/Views/Home/Index.cshtml", _TodoList);
-        }*/
+            _TodoList.TodoItems.RemoveAll(p => p.Checked == true);
 
-        [HttpPost]
-        public IActionResult DeleteTodo(List<int> checkedStatus)
-        {
-            foreach (var q in checkedStatus)
-            {
-                var checkedTodo = _TodoList.TodoItems.Where(x => x.Id == q).FirstOrDefault();
-                checkedTodo.Checked = true;
-                _TodoList.TodoItems.Remove(checkedTodo);
-            }
+            Debug.WriteLine("Deleted selected todo's.");
+
+            //foreach (var q in checkedStatus)
+            //{
+            //    var checkedTodo = _TodoList.TodoItems.Where(x => x.Id == q).FirstOrDefault();
+            //    checkedTodo.Checked = true;
+            //    _TodoList.TodoItems.Remove(checkedTodo);
+            //}
             //other logic
             return View("~/Views/Home/Index.cshtml", _TodoList);
         }
