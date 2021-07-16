@@ -1,0 +1,86 @@
+﻿@model TodoApp.Mvc.Models.TodoList
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Todo App";
+}
+
+<div class="text-center">
+    <h1>@ViewData["Title"]</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Todo</th>
+            <th>Deadline</th>
+        </tr>
+        @if (Model.TodoItems == null)
+        {
+            <p>No todo's have been found. Generate one below!</p>
+        }
+        else
+        {
+            foreach (var todo in Model.TodoItems)
+            {
+                <tr>
+                    <td>@todo.Id</td>
+                    <td>@todo.TodoContent</td>
+                    <td>@todo.Deadline</td>
+                    <td>
+                        @Html.CheckBoxFor(x => todo.Checked, new
+                        {
+                           id = todo.Id,
+                           @class = "toggle",
+                           data_url = Url.Action("ToggleClaim", "Home")
+                        })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+
+    <br />
+    <h4>Add a todo here:</h4>
+    <form method="POST">
+        <input type="text" id="todoContent" placeholder="Type your todo here..." name="todoContent" />
+        <input type="datetime-local" id="deadline" placeholder="Date deadline" name="deadline" />
+        <input type="submit" value="Add Todo" />
+    </form>
+
+    <br />
+    <table>
+        <td>
+            <h6>Delete selected todo's:</h6>
+        </td>
+        <td>
+            <input type="button" value="Delete todo" onclick="location.href='@Url.Action("DeleteTodo", "Home")'" />
+        </td>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.toggle').change(function () {
+
+                    //alert("Uw todo is geselecteerd.");
+
+                    var self = $(this);
+                    var url = self.data('url');
+                    var id = self.attr('id');
+                    var value = self.prop('checked');
+
+                    $.ajax({
+                        url: url,
+                        data: { id: id, value: value},
+                        type: 'GET',
+                        success: function (response) {
+                            // alert("Uw todo is verwijderd.");
+                        }
+                   
+                    });
+                    
+                });
+            
+        });
+    </script>
+}
