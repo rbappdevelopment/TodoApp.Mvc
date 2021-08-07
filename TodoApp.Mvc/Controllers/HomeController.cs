@@ -17,10 +17,10 @@ namespace TodoApp.Mvc.Controllers
         public TodoItemModel TodoModel = new TodoItemModel();
         public static TodoList _TodoList;
         public static List<TodoItemModel> _TodoItems;
-       /* public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-        }*/
+        }
 
         static HomeController()
         {
