@@ -29,6 +29,12 @@ namespace TodoApp.Mvc.Controllers
             _TodoId = 0;
         }
 
+        /// <summary>
+        /// Generates a Todo and adds it to the List<TodoItemModel>.
+        /// </summary>
+        /// <param name="todoContent">Content of the Todo item.</param>
+        /// <param name="deadline">End date.</param>
+        /// <returns>TodoList</returns>
         public TodoList GenerateTodo(string todoContent, DateTime deadline)
         {
             _TodoId++;
@@ -41,6 +47,20 @@ namespace TodoApp.Mvc.Controllers
             _TodoList.TodoItems = _TodoItems;
 
             return _TodoList;
+        }
+
+        /// <summary>
+        /// Deletes all todo's in List that have had their Checked value set to True (which can be done by executing ToggleClaim(int id, bool value)).
+        /// </summary>
+        /// <returns>RedirectToAction("Index");</returns>
+        [HttpGet]
+        public IActionResult DeleteTodo()
+        {
+            _TodoList.TodoItems.RemoveAll(p => p.Checked == true);
+
+            Debug.WriteLine("Deleted selected todo's.");
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -79,34 +99,6 @@ namespace TodoApp.Mvc.Controllers
         public IActionResult Index(string todoContent, DateTime deadline)
         {
             return View(GenerateTodo(todoContent, deadline));
-        }
-
-        /*  [HttpPost]
-          public IActionResult DeleteTodo()
-          {
-              TodoList CheckedTodosInList = new TodoList();
-
-              foreach (var todo in _TodoList.TodoItems)
-              {
-                  if (todo.Checked)
-                  {
-                      CheckedTodosInList.TodoItems.Add(todo);
-                      _TodoList.TodoItems.Remove(todo);
-                      Debug.WriteLine("Removed todo from static List. Total items left in _TodoList: " + _TodoList.TodoItems.Count);
-                  }
-              }
-
-              return View("~/Views/Home/Index.cshtml", _TodoList);
-          }*/
-
-        [HttpGet]
-        public IActionResult DeleteTodo()
-        {
-            _TodoList.TodoItems.RemoveAll(p => p.Checked == true);
-
-            Debug.WriteLine("Deleted selected todo's.");
-
-            return RedirectToAction("Index");
         }
 
         public IActionResult About()

@@ -21,7 +21,5 @@ namespace TodoApp.Mvc.Models
 	public class TodoList
 	{
 		public List<TodoItemModel> TodoItems { get; set; }
-
-		public bool CheckedInList { get; set; }
-	}
+    }
 }
